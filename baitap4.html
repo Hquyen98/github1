@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài toán tối ưu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Bài toán tối ưu cho thuê máy</h2>
+    
+    <!-- Input để nhập số lượng khách hàng (M) -->
+    <label for="numCustomers">Nhập số lượng khách hàng (M): </label>
+    <input type="number" id="numCustomers" min="1" value="1">
+
+    <!-- Nút để kích hoạt hàm tối ưu hóa -->
+    <button onclick="optimizeRequests()">Tối ưu hóa yêu cầu</button>
+    
+    <!-- Kết quả tối ưu -->
+    <div id="result"></div>
+
+    <script>
+        function optimizeRequests() {
+            // Lấy giá trị số lượng khách hàng từ input
+            const numCustomersInput = document.getElementById('numCustomers');
+            const numCustomers = parseInt(numCustomersInput.value, 10);
+
+            // Tạo mảng chứa thông tin về yêu cầu của từng khách hàng
+            const requests = [];
+            for (let i = 0; i < numCustomers; i++) {
+                const customerInput = prompt('Nhập tập ngày sử dụng cho khách hàng ' + (i + 1) + ' (vd: "1 3 5"):');
+                const days = customerInput.split(' ').map(Number);
+                requests.push({ customer: i + 1, days: days });
+            }
+
+            // Sắp xếp yêu cầu theo số ngày tăng dần
+            requests.sort((a, b) => a.days.length - b.days.length);
+
+            // Tối ưu hóa chọn các yêu cầu
+            const selectedRequests = [];
+            const selectedDays = new Set();
+
+            for (const request of requests) {
+                const overlappingDays = request.days.filter(day => selectedDays.has(day));
+                if (overlappingDays.length === 0) {
+                    const newSet = new Set([...selectedDays, ...request.days]);
+                    if (newSet.size > selectedDays.size) {
+                        selectedRequests.push(request);
+                        selectedDays.clear();
+                        newSet.forEach(day => selectedDays.add(day));
+                    }
+                }
+            }
+
+            // Hiển thị kết quả tối ưu
+            const resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = '<p>Chọn yêu cầu từ khách hàng: ' + selectedRequests.map(r => r.customer).join(', ') + '</p>';
+            resultContainer.innerHTML += '<p>Tổng số ngày sử dụng máy: ' + selectedDays.size + '</p>';
+        }
+    </script>
+
+</body>
+</html>

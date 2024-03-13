@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thuật toán DFS </title>
+    <script>
+        const MaxN = 100005;
+        let adj = [];
+        let visited = [];
+
+        function DFS(u) {
+            visited[u] = true;
+            document.getElementById("result").innerHTML += u + " ";
+
+            for (let v of adj[u]) {
+                if (!visited[v]) {
+                    DFS(v);
+                }
+            }
+        }
+
+        function startDFS() {
+            let n = parseInt(document.getElementById("numVertices").value);
+
+            for (let i = 1; i <= n; i++) {
+                visited[i] = false;
+            }
+
+            let edges = document.getElementById("edges").value.trim().split("\n");
+
+            for (let i = 1; i <= n; i++) {
+                adj[i] = [];
+            }
+
+            for (let edge of edges) {
+                let [u, v] = edge.trim().split(" ").map(Number);
+                adj[u].push(v);
+                adj[v].push(u);
+            }
+
+            DFS(1);
+        }
+    </script>
+</head>
+<body>
+    <h2>DFS. Thuật toán tìm kiếm </h2>
+    <label for="numVertices">Number of Vertices:</label>
+    <input type="number" id="numVertices" min="1" value="1">
+    <br><br>
+    <label for="edges">Edges:</label>
+    <textarea id="edges" rows="5" cols="30"></textarea>
+    <br><br>
+    <button onclick="startDFS()">Start DFS</button>
+    <br><br>
+    <div id="result"></div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Xếp sách </title>
+</head>
+<body>
+    <h2>Liệt kê tất cả các cách sắp xếp 5 quyển sách trên một kệ, nếu chỉ có 2 quyển sách khác nhau. </h2>
+    <button onclick="calculateArrangements()">Kết quả ở đây </button><br><br>
+    <div id="output"></div>
+
+    <script>
+        function calculateArrangements() {
+            // Tính tổng số lượng cách sắp xếp
+            var n = Math.pow(2, 5); // 2^5 = 32
+
+            // Trừ đi số cách sắp xếp khi tất cả quyển sách giống nhau (A hoặc B)
+            var x = 2; // 2 trường hợp: tất cả quyển A hoặc tất cả quyển B
+            var cachxep = n - x;
+
+            // Liệt kê các cách sắp xếp cụ thể
+            var arrangementsList = [];
+            for (var i = 0; i < n; i++) {
+                var arrangement = [];
+                for (var j = 0; j < 5; j++) {
+                    var book = (i >> j) & 1 ? 'B' : 'A';
+                    arrangement.push(book);
+                }
+                arrangementsList.push(arrangement.join(', '));
+            }
+
+            // Hiển thị kết quả
+            var output = document.getElementById('output');
+            output.innerHTML = "<h3>Tổng số cách sắp xếp:</h3>";
+            output.innerHTML += cachxep + " cách sắp xếp <br>";
+            output.innerHTML += "<h3>Cách sắp xếp :</h3>";
+            output.innerHTML += "<ul>";
+            arrangementsList.forEach(function (arrangement) {
+                output.innerHTML += "<li>" + arrangement + "</li>";
+            });
+            output.innerHTML += "</ul>";
+        }
+    </script>
+</body>
+</html>

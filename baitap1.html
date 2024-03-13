@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sắp xếp bài</title>
+    
+</head>
+<body>
+    <h2>Có bao nhiêu cách sắp xếp 5 con bài từ một bộ bài có 52 lá?</h2>
+    <label for="cards"> Số lượng bài:</label>
+    <input type="number" id="cards" min="1" value="52"><br><br>
+    <label for="chosen"> Số lá bài được sắp xếp:</label>
+    <input type="number" id="chosen" min="1" value="5"><br><br>
+    <button onclick="ketqua()"> Nút </button><br><br>
+    <div id="result"></div>
+
+    <script>
+        function ketqua() {
+            var n = parseInt(document.getElementById('cards').value);
+            var r = parseInt(document.getElementById('chosen').value);
+
+            var nFactorial = factorial(n);
+            var nMinusRFactorial = factorial(n - r);
+            var permutations = nFactorial / nMinusRFactorial;
+
+            document.getElementById('result').innerText = "Cách sắp xếp: " + permutations;
+        }
+
+        function factorial(num) {
+            if (num === 0 || num === 1)
+                return 1;
+            for (var i = num - 1; i >= 1; i--) {
+                num *= i;
+            }
+            return num;
+        }
+    </script>
+</body>
+</html>
